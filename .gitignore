@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+*.env
+*.DS_Store
+node_modules/
+dist/
+build/
+*.log
+flowly/memory/conversations.json
