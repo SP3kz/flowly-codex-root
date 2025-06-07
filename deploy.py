@@ -1,9 +1,26 @@
-# Auto-deploy script for pushing to GitHub
-import os
+name: Deploy Codex UI
 
-os.system('git init')
-os.system('git add .')
-os.system('git commit -m "CI/CD Ready: Codex Init Anywhere"')
-os.system('git branch -M main')
-os.system('git remote add origin https://github.com/YOUR_USERNAME/flowly-codex-init-anywhere.git')
-os.system('git push -u origin main')
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install streamlit
+
+      - name: Run Codex UI (headless preview)
+        run: streamlit run streamlit_ui/app.py --server.headless true --server.port 8501
